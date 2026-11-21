@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Название Салона — Салон красоты</title>
+  <style>
+    :root {
+      --bg: #0d0d10;
+      --card: #16161b;
+      --input: #1e1e26;
+      --border: #272732;
+      --text: #ffffff;
+      --muted: #a1a1aa;
+      --accent: #d4af37;
+      --accent-hover: #e5c158;
+      --accent-text: #0d0d10;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+    header { position: sticky; top: 0; z-index: 50; background: rgba(13,13,16,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .logo { font-weight: 700; font-size: 19px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+    .links a:hover { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: 0.2s; }
+    .btn-main { background: var(--accent); color: var(--accent-text); }
+    .btn-main:hover { background: var(--accent-hover); }
+    .btn-out { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-out:hover { border-color: var(--accent); color: var(--accent); }
+    .hero { padding: 70px 0 50px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; }
+    .badge { display: inline-block; padding: 5px 14px; border-radius: 99px; background: rgba(212,175,55,0.12); color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 16px; border: 1px solid rgba(212,175,55,0.3); }
+    .hero h1 { font-size: 42px; line-height: 1.15; margin-bottom: 16px; }
+    .hero p { color: var(--muted); font-size: 16px; margin-bottom: 28px; }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-img { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); height: 360px; }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+    section { padding: 60px 0; border-top: 1px solid var(--border); }
+    .head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; gap: 16px; flex-wrap: wrap; }
+    .head h2 { font-size: 30px; margin-bottom: 6px; }
+    .head p { color: var(--muted); font-size: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .card h3 { color: var(--accent); font-size: 17px; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 14px; }
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tab { padding: 9px 18px; border-radius: 9px; background: var(--card); color: var(--muted); border: 1px solid var(--border); cursor: pointer; font-weight: 600; font-size: 14px; }
+    .tab.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .srv { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .srv h4 { font-size: 15px; margin-bottom: 3px; }
+    .srv span { font-size: 13px; color: var(--muted); }
+    .srv-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .price { font-weight: 700; color: var(--accent); font-size: 17px; }
+    .arrows { display: flex; gap: 8px; }
+    .arrow { width: 40px; height: 40px; border-radius: 9px; background: var(--card); border: 1px solid var(--border); color: var(--text); font-size: 18px; cursor: pointer; }
+    .arrow:hover { border-color: var(--accent); color: var(--accent); }
+    .track { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; }
+    .track::-webkit-scrollbar { display: none; }
+    .gal-item { min-width: 260px; height: 280px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); position: relative; flex-shrink: 0; }
+    .gal-item img { width: 100%; height: 100%; object-fit: cover; }
+    .gal-cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 14px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); font-size: 13px; }
+    .rev { min-width: 320px; max-width: 320px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .stars { color: var(--accent); margin-bottom: 10px; }
+    .rev p { font-size: 14px; margin-bottom: 14px; color: #e4e4e7; }
+    .rev-auth { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .book-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 22px; align-items: start; }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 7px; }
+    select, input { width: 100%; padding: 11px 14px; border-radius: 9px; background: var(--input); border: 1px solid var(--border); color: var(--text); font-size: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 9px 14px; border-radius: 9px; background: var(--input); border: 1px solid var(--border); color: var(--text); font-size: 13px; cursor: pointer; }
+    .chip.selected { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 700; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .sum { background: var(--card); border: 1px solid var(--accent); border-radius: 14px; padding: 22px; }
+    .sum h3 { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .sum-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+    .sum-row span:first-child { color: var(--muted); }
+    .sum-tot { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; }
+    .sum-tot span:last-child { color: var(--accent); }
+    .map-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+    footer { border-top: 1px solid var(--border); padding: 28px 0; text-align: center; color: var(--muted); font-size: 13px; }
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: var(--accent-text); padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 14px; display: none; z-index: 999; }
+    @media (max-width: 820px) { .hero, .grid-3, .grid-2, .book-grid { grid-template-columns: 1fr; } .links { display: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo"><span class="dot"></span><span id="s-name">Название Салона</span></a>
+      <nav class="links">
+        <a href="#about">О студии</a>
+        <a href="#services">Услуги</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#booking">Запись</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a href="https://max.ru" target="_blank" class="btn btn-main max-btn">Записаться в MAX</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <div>
+        <span class="badge" id="h-badge">Рейтинг 5.0 • Онлайн-запись 24/7</span>
+        <h1 id="h-title">Название Салона — Салон красоты</h1>
+        <p id="h-desc">Профессиональные услуги и удобная онлайн-запись за 30 секунд без звонков и ожидания через мессенджер MAX.</p>
+        <div class="btns">
+          <a href="#booking" class="btn btn-main">Выбрать услугу и время</a>
+          <a href="#services" class="btn btn-out">Посмотреть прайс</a>
+        </div>
+      </div>
+      <div class="hero-img"><img id="h-img" src="https://unsplash.com" alt="Салон"></div>
+    </div>
+  </div>
+  <section id="about">
+    <div class="container">
+      <div class="head"><div><h2>Почему выбирают нас</h2><p>Комфортный сервис и прозрачная запись в пару кликов</p></div></div>
+      <div class="grid-3">
+        <div class="card"><h3>Квалифицированные специалисты</h3><p>Внимательный подход к каждому гостю и подбор образа под ваши пожелания.</p></div>
+        <div class="card"><h3>Стерильность и комфорт</h3><p>Соблюдение санитарных норм, одноразовые расходники и уютная атмосфера.</p></div>
+        <div class="card"><h3>Удобная запись через MAX</h3><p>Выбирайте услугу, удобное время и отправляйте заявку в мессенджер за секунды.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="head"><div><h2>Услуги и цены</h2><p>Выберите категорию, чтобы посмотреть актуальный прайс-лист</p></div></div>
+      <div class="tabs" id="tabs"></div>
+      <div class="grid-2" id="srv-list"></div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <div class="head">
+        <div><h2>Галерея работ и интерьера</h2><p>Листайте влево и вправо, чтобы посмотреть примеры</p></div>
+        <div class="arrows">
+          <button class="arrow" onclick="move('gal-track', -300)">←</button>
+          <button class="arrow" onclick="move('gal-track', 300)">→</button>
+        </div>
+      </div>
+      <div class="track" id="gal-track"></div>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <div class="container">
+      <div class="head">
+        <div><h2>Отзывы клиентов</h2><p>Реальные впечатления гостей нашего салона</p></div>
+        <div class="arrows">
+          <button class="arrow" onclick="move('rev-track', -340)">←</button>
+          <button class="arrow" onclick="move('rev-track', 340)">→</button>
+        </div>
+      </div>
+      <div class="track" id="rev-track"></div>
+    </div>
+  </section>
+
+  <section id="booking">
+    <div class="container">
+      <div class="head"><div><h2>Онлайн-запись на удобное время</h2><p>Соберите заявку за 3 клика и отправьте её в мессенджер MAX</p></div></div>
+      <div class="book-grid">
+        <div class="card">
+          <div class="fg"><label>1. Выберите услугу</label><select id="sel-srv" onchange="upd()"></select></div>
+          <div class="fg"><label>2. Выберите специалиста</label><div class="chips" id="m-chips"></div></div>
+          <div class="fg"><label>3. Выберите дату</label><input type="date" id="sel-date" onchange="upd()"></div>
+          <div class="fg"><label>4. Выберите время</label><div class="chips" id="t-chips"></div></div>
+          <div class="row-2">
+            <div class="fg"><label>Ваше имя</label><input type="text" id="in-name" placeholder="Анна" oninput="upd()"></div>
+            <div class="fg"><label>Ваш телефон</label><input type="tel" id="in-phone" placeholder="+7 (999) 000-00-00" oninput="upd()"></div>
+          </div>
+        </div>
+        <div class="sum">
+          <h3>Ваша заявка</h3>
+          <div class="sum-row"><span>Услуга:</span><span id="o-srv">—</span></div>
+          <div class="sum-row"><span>Специалист:</span><span id="o-mst">—</span></div>
+          <div class="sum-row"><span>Дата:</span><span id="o-date">Не выбрана</span></div>
+          <div class="sum-row"><span>Время:</span><span id="o-time">Не выбрано</span></div>
+          <div class="sum-row"><span>Клиент:</span><span id="o-cli">Не указано</span></div>
+          <div class="sum-tot"><span>Стоимость:</span><span id="o-prc">0 ₽</span></div>
+          <button class="btn btn-main" style="width:100%;margin-top:16px;" onclick="send()">Подтвердить и отправить в MAX</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="container">
+      <div class="head"><div><h2>Контакты</h2><p>Ждём вас в гости ежедневно</p></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <p style="margin-bottom:12px;"><strong>Адрес:</strong> <span id="c-addr">г. Ваш Город, ул. Примерная, 10</span></p>
+          <p style="margin-bottom:12px;"><strong>График:</strong> <span id="c-hrs">Ежедневно с 10:00 до 20:00</span></p>
+          <p style="margin-bottom:20px;"><strong>Телефон:</strong> <span id="c-ph">+7 (900) 000-00-00</span></p>
+          <div class="btns">
+            <a href="https://max.ru" target="_blank" class="btn btn-main max-btn">Написать в MAX</a>
+            <a id="c-tel" href="tel:+79000000000" class="btn btn-out">Позвонить</a>
+          </div>
+        </div>
+        <div class="map-box">
+          <h3 style="margin-bottom:8px;">Карта проезда</h3>
+          <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Нажмите кнопку ниже, чтобы открыть маршрут</p>
+          <a id="c-map" href="https://yandex.ru" target="_blank" class="btn btn-out">Открыть на Яндекс Картах</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="container">© 2026 <span id="f-name">Название Салона</span>. Все права защищены.</div></footer>
+  <div class="toast" id="toast">Заявка скопирована! Открываем MAX...</div>
+  <script>
+    const CONFIG = {
+      name: "Малинка",
+      accent: "#e11d48",
+      accentHover: "#be123c",
+      accentText: "#ffffff",
+      badge: "★ 5.0 на Яндекс Картах • 152 оценки",
+      title: "Салон красоты «Малинка» в Северном",
+      desc: "Команда мастеров по волосам, ногтевому сервису, ресницам и косметологии. Выберите услугу и запишитесь на удобное время за 30 секунд через мессенджер MAX.",
+      heroImg: "images/5.jpg",
+      maxUrl: "https://max.ru",
+      address: "г. Чита, микрорайон Северный, 39Б, этаж 2",
+      hours: "Ежедневно с 10:00 до 19:00",
+      phone: "+7 (914) 805-01-34",
+      phoneRaw: "+79148050134",
+      mapUrl: "https://yandex.by/maps/org/malinka/72706387948/?ll=113.483563%2C52.073802&z=16.92",
+      categories: [
+        { id: "c1", title: "Женский зал", items: [
+          { name: "Чёлка", dur: "20 мин", price: "500 ₽" },
+          { name: "Стрижка коротких волос", dur: "45 мин", price: "1 500 ₽" },
+          { name: "Стрижка полудлинных волос", dur: "60 мин", price: "1 700 ₽" },
+          { name: "Стрижка длинных волос", dur: "60 мин", price: "2 000 ₽" },
+          { name: "Стрижка креативная", dur: "60 мин", price: "2 000 ₽" },
+          { name: "Укладка коротких волос", dur: "40 мин", price: "1 000 ₽" },
+          { name: "Укладка полудлинных волос", dur: "50 мин", price: "1 500 ₽" },
+          { name: "Укладка длинных волос", dur: "60 мин", price: "2 000 ₽" },
+          { name: "Вечерняя причёска", dur: "90 мин", price: "2 000 ₽" },
+          { name: "Свадебная причёска", dur: "120 мин", price: "3 000 ₽" },
+          { name: "Окрашивание коротких волос", dur: "120 мин", price: "3 500 ₽" },
+          { name: "Окрашивание полудлинных волос", dur: "150 мин", price: "4 000 ₽" },
+          { name: "Окрашивание длинных волос", dur: "180 мин", price: "4 500 ₽" },
+          { name: "Мелирование коротких волос", dur: "180 мин", price: "10 000 ₽" },
+          { name: "Мелирование полудлинных волос", dur: "210 мин", price: "12 000 ₽" },
+          { name: "Мелирование длинных волос", dur: "По записи", price: "По договорённости" },
+          { name: "Биозавивка", dur: "150 мин", price: "6 000 ₽" },
+          { name: "Плетение кос", dur: "45 мин", price: "1 500 ₽" }
+        ]},
+        { id: "c2", title: "Мужской зал", items: [
+          { name: "Стрижка наголо", dur: "20 мин", price: "500 ₽" },
+          { name: "Стрижка модельная", dur: "45 мин", price: "1 200 ₽" },
+          { name: "Стрижка креативная", dur: "50 мин", price: "1 500 ₽" },
+          { name: "Укладка", dur: "20 мин", price: "500 ₽" },
+          { name: "Мытьё головы", dur: "15 мин", price: "200 ₽" },
+          { name: "Стрижка бороды", dur: "25 мин", price: "300 ₽" },
+          { name: "Стрижка усов", dur: "15 мин", price: "200 ₽" },
+          { name: "Стрижка бровей", dur: "10 мин", price: "100 ₽" },
+          { name: "Декоративные узоры", dur: "20 мин", price: "300 ₽" },
+          { name: "Тонирование", dur: "40 мин", price: "1 300 ₽" }
+        ]},
+        { id: "c3", title: "Ногтевой сервис", items: [
+          { name: "Маникюр", dur: "60 мин", price: "1 200 ₽" },
+          { name: "Маникюр + гель-лак", dur: "90 мин", price: "2 200 ₽" },
+          { name: "Деп маникюр", dur: "90 мин", price: "3 000 ₽" },
+          { name: "Мужской маникюр", dur: "60 мин", price: "2 000 ₽" },
+          { name: "Детский маникюр", dur: "40 мин", price: "1 000 ₽" },
+          { name: "Наращивание ногтей (гель-лак)", dur: "150 мин", price: "3 000 ₽" },
+          { name: "Покрытие лаком", dur: "30 мин", price: "500 ₽" },
+          { name: "Френч (французский маникюр)", dur: "30 мин", price: "300 ₽" },
+          { name: "Френч с удлинением ногтевого ложа", dur: "45 мин", price: "500 ₽" },
+          { name: "Дизайн ногтей", dur: "20 мин", price: "300 ₽" },
+          { name: "Ремонт 1 ногтя", dur: "20 мин", price: "500 ₽" },
+          { name: "Педикюр женский", dur: "60 мин", price: "2 200 ₽" },
+          { name: "Полный педикюр (гель-лак)", dur: "90 мин", price: "2 700 ₽" },
+          { name: "Педикюр мужской", dur: "75 мин", price: "3 000 ₽" }
+               ]},
+
+                { id: "c4", title: "Ресницы и брови", items: [
+          { name: "Наращивание классика", dur: "120 мин", price: "2 200 ₽" },
+          { name: "Наращивание 1.5D", dur: "130 мин", price: "2 300 ₽" },
+          { name: "Наращивание 2D", dur: "150 мин", price: "2 500 ₽" },
+          { name: "Наращивание 3D", dur: "180 мин", price: "2 900 ₽" },
+          { name: "Ламинирование ресниц", dur: "60 мин", price: "2 200 ₽" },
+          { name: "Снятие ресниц", dur: "30 мин", price: "600 ₽" },
+          { name: "Коррекция бровей", dur: "30 мин", price: "500 ₽" },
+          { name: "Окрашивание бровей", dur: "30 мин", price: "500 ₽" },
+          { name: "Окрашивание ресниц", dur: "30 мин", price: "500 ₽" }
+        ]},
+        { id: "c5", title: "Косметология", items: [
+          { name: "Синергия чистоты (УЗ + мех. чистка)", dur: "120 мин", price: "3 500 ₽" },
+          { name: "Чистая нота (УЗ-чистка)", dur: "50 мин", price: "3 500 ₽" },
+          { name: "Пробуждение энергии (Active Therapy)", dur: "50 мин", price: "3 500 ₽" },
+          { name: "Моментальный эффект (Lifting-уход)", dur: "50 мин", price: "3 500 ₽" },
+          { name: "Время вспять (Anti-age уход)", dur: "50 мин", price: "3 500 ₽" },
+          { name: "Деликатная чувствительность", dur: "50 мин", price: "3 500 ₽" },
+          { name: "Омолаживающий массаж лица", dur: "30 мин", price: "2 500 ₽" },
+          { name: "Пилинг", dur: "30 мин", price: "5 000 ₽" }
+        ]},
+        { id: "c6", title: "Депиляция воском", items: [
+          { name: "Зона подмышечных впадин", dur: "20 мин", price: "от 900 ₽" },
+          { name: "Ноги до колена", dur: "30 мин", price: "от 1 100 ₽" },
+          { name: "Ноги выше колена", dur: "30 мин", price: "от 500 ₽" },
+          { name: "Зона бикини", dur: "30 мин", price: "от 1 000 ₽" },
+          { name: "Глубокое бикини", dur: "45 мин", price: "от 2 100 ₽" },
+          { name: "Депиляция усиков", dur: "15 мин", price: "300 ₽" }
+        ]}
+      ],
+      masters: ["Любой свободный мастер", "Мастер 1 (Стилист)", "Мастер 2 (Ногтевой сервис)", "Мастер 3 (Ресницы и брови)"],
+      times: ["10:00", "11:30", "13:00", "15:00", "17:00", "18:30"],
+      gallery: [
+        { img: "images/1.jpg", cap: "Мелирование и окрашивание" },
+        { img: "images/2.jpg", cap: "Классический френч" },
+        { img: "images/3.jpg", cap: "Дизайн ногтей" },
+        { img: "images/4.jpg", cap: "Укладка локонами" },
+        { img: "images/5.jpg", cap: "Маникюр с покрытием" },
+        { img: "images/6.jpg", cap: "Наращивание ресниц" },
+        { img: "images/7.jpg", cap: "Объёмное наращивание" },
+        { img: "images/8.jpg", cap: "Эффект лисий глаз" },
+        { img: "images/9.jpg", cap: "Работа мастеров зала" },
+        { img: "images/10.jpg", cap: "Стрижка и укладка" },
+        { img: "images/11.jpg", cap: "Парикмахерский зал" },
+        { img: "images/12.jpg", cap: "Интерьер салона" },
+        { img: "images/14.jpg", cap: "Атмосфера студии" },
+        { img: "images/15.jpg", cap: "Сертификаты и квалификация" },
+        { img: "images/16.jpg", cap: "Дипломы мастеров" }
+      ],
+      reviews: [
+        { author: "Петровская Светлана", date: "25 декабря 2025", text: "Много лет езжу в салон «Малинка» из центра в Северный, так как лучшего в нашем городе не нашла! Все мастера — профессионалы высокого класса, в салоне идеальная чистота и уют." },
+        { author: "Ульяна Сорокина", date: "21 ноября 2025", text: "Впервые посетила ваш салон. Осталась под впечатлением. Огромное спасибо Кристине! Маникюр оправдал все мои ожидания. Всем советую посетить салон «Малинка»!" },
+        { author: "Ольга К.", date: "7 октября 2025", text: "Когда захотелось перемен, пошла к Галине Валерьевне на стрижку. Она подобрала форму под лицо, и теперь даже без укладки волосы лежат красиво." },
+        { author: "Аделина Асманова", date: "25 сентября 2025", text: "Побывала на маникюре и педикюре у Ольги и теперь только к ней хожу! Всё по высшему классу, инструменты стерильные, атмосфера приятная." },
+        { author: "Виталина Мехмедова", date: "22 августа 2025", text: "Ресницы получились как с картинки, объёмные, но при этом без эффекта куклы. Ольга сделала всё супер!" },
+        { author: "Наталья Назарова", date: "14 июня 2025", text: "Подруга порекомендовала Анастасию для макияжа и укладки. Она смогла создать образ, который идеально мне подошёл, укладка держалась до следующего дня." }
+      ]
+    };
+
+    let curMaster = CONFIG.masters, curTime = "";
+
+    function start() {
+      document.documentElement.style.setProperty('--accent', CONFIG.accent);
+      document.documentElement.style.setProperty('--accent-hover', CONFIG.accentHover);
+      document.documentElement.style.setProperty('--accent-text', CONFIG.accentText);
+      document.title = CONFIG.title;
+      document.getElementById('s-name').textContent = CONFIG.name;
+      document.getElementById('f-name').textContent = CONFIG.name;
+      document.getElementById('h-badge').textContent = CONFIG.badge;
+      document.getElementById('h-title').textContent = CONFIG.title;
+      document.getElementById('h-desc').textContent = CONFIG.desc;
+      document.getElementById('h-img').src = CONFIG.heroImg;
+      document.getElementById('c-addr').textContent = CONFIG.address;
+      document.getElementById('c-hrs').textContent = CONFIG.hours;
+      document.getElementById('c-ph').textContent = CONFIG.phone;
+      document.getElementById('c-tel').href = "tel:" + CONFIG.phoneRaw;
+      document.getElementById('c-map').href = CONFIG.mapUrl;
+      document.querySelectorAll('.max-btn').forEach(e => e.href = CONFIG.maxUrl);
+
+      const tabs = document.getElementById('tabs');
+      CONFIG.categories.forEach((c, i) => {
+        const b = document.createElement('button');
+        b.className = 'tab' + (i === 0 ? ' active' : '');
+        b.textContent = c.title;
+        b.onclick = () => { document.querySelectorAll('.tab').forEach(x => x.classList.remove('active')); b.classList.add('active'); showSrv(c.id); };
+        tabs.appendChild(b);
+      });
+      showSrv(CONFIG.categories[0].id);;
+
+      const sel = document.getElementById('sel-srv');
+      CONFIG.categories.forEach(c => c.items.forEach(it => {
+        const o = document.createElement('option');
+        o.value = it.name + "|" + it.price;
+        o.textContent = it.name + " — " + it.price;
+        sel.appendChild(o);
+      }));
+
+      const mc = document.getElementById('m-chips');
+      CONFIG.masters.forEach((m, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'chip' + (i === 0 ? ' selected' : ''); b.textContent = m;
+        b.onclick = () => { document.querySelectorAll('#m-chips .chip').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); curMaster = m; upd(); };
+        mc.appendChild(b);
+      });
+
+      const tc = document.getElementById('t-chips');
+      CONFIG.times.forEach(t => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'chip'; b.textContent = t;
+        b.onclick = () => { document.querySelectorAll('#t-chips .chip').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); curTime = t; upd(); };
+        tc.appendChild(b);
+      });
+
+      const gt = document.getElementById('gal-track');
+      CONFIG.gallery.forEach(g => {
+        gt.innerHTML += `<div class="gal-item"><img src="${g.img}" onerror="this.parentElement.style.display='none'"><div class="gal-cap">${g.cap}</div></div>`;
+      });
+
+      const rt = document.getElementById('rev-track');
+      CONFIG.reviews.forEach(r => {
+        rt.innerHTML += `<div class="rev"><div><div class="stars">★★★★★</div><p>«${r.text}»</p></div><div class="rev-auth">${r.author} • ${r.date}</div></div>`;
+      });
+      upd();
+    }
+
+    function showSrv(id) {
+      const c = CONFIG.categories.find(x => x.id === id);
+      const l = document.getElementById('srv-list');
+      l.innerHTML = '';
+      c.items.forEach(it => {
+        l.innerHTML += `<div class="srv"><div><h4>${it.name}</h4><span>${it.dur}</span></div><div class="srv-right"><span class="price">${it.price}</span><button class="btn btn-out" style="padding:8px 12px;" onclick="pick('${it.name}|${it.price}')">Выбрать услугу</button></div></div>`;
+      });
+    }
+
+    function pick(v) {
+      document.getElementById('sel-srv').value = v;
+      upd();
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function move(id, px) { document.getElementById(id).scrollBy({ left: px, behavior: 'smooth' }); }
+
+    function upd() {
+      const [n, p] = document.getElementById('sel-srv').value.split('|');
+      document.getElementById('o-srv').textContent = n;
+      document.getElementById('o-prc').textContent = p;
+      document.getElementById('o-mst').textContent = curMaster;
+      document.getElementById('o-date').textContent = document.getElementById('sel-date').value || 'Не выбрана';
+      document.getElementById('o-time').textContent = curTime || 'Не выбрано';
+      const cl = (document.getElementById('in-name').value + ' ' + document.getElementById('in-phone').value).trim();
+      document.getElementById('o-cli').textContent = cl || 'Не указано';
+    }
+
+    function send() {
+      const msg = `Запись в «${CONFIG.name}»:\nУслуга: ${document.getElementById('o-srv').textContent} (${document.getElementById('o-prc').textContent})\nМастер: ${curMaster}\nДата и время: ${document.getElementById('o-date').textContent}, ${document.getElementById('o-time').textContent}\nКлиент: ${document.getElementById('o-cli').textContent}`;
+      if (navigator.clipboard) navigator.clipboard.writeText(msg).catch(()=>{});
+      const t = document.getElementById('toast');
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; window.open(CONFIG.maxUrl, '_blank'); }, 1000);
+    }
+
+    start();
+  </script>
+</body>
+</html>
